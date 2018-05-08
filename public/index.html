@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ws</title>
+    <style>
+    #main{
+        background: #eee;
+        border: 1px solid #000;
+        border-radius: 4px;
+        height: 500px;
+        overflow: scroll
+    }
+    </style>
+</head>
+
+<body>
+<h3>hello ws</h3>
+<div id="main">
+
+</div>
+<div>
+    <input type="text"><button onclick="sub()">提交</button>
+</div>
+</body>
+<script>
+    if (window.WebSocket) {
+        let ws = new WebSocket('ws://192.168.0.69:3000/wsaddr')
+
+        // onopen
+        ws.onopen = function () {
+            // Web Socket 已连接上，使用 send() 方法发送数据
+            ws.send("一些数据");
+            alert("数据发送中...");
+        };
+
+        // onmessage
+        ws.onmessage = function (evt) {
+            let received_msg = evt.data;
+            console.log(received_msg)
+            alert("数据已接收...");
+        };
+        
+        // onclose
+        ws.onclose = function () {
+            // 关闭 websocket
+            alert("连接已关闭...");
+        };
+    } else {
+        alert("不支持ws")
+    }
+</script>
+
+</html>
