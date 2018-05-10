@@ -14,12 +14,30 @@
         height: 500px;
         overflow: scroll
     }
-        .b{
-            padding: 3px;
-            background: yellowgreen;
-            margin: 3px;
-            display: inline-block;
-        }
+    .b{
+        padding: 3px;
+        /* background: yellowgreen; */
+        background: #fff;
+        border: 1px solid #aaa;
+        border-radius: 4px; 
+        margin: 3px;
+        display: inline-block;
+        max-width: 60%;
+        vertical-align: top;
+        text-align: left;
+        word-break: break-all
+    }
+    .chat{
+        padding: 3px;
+        /* text-align: right; */
+    }
+    .mychat{
+        padding: 3px;
+        text-align: right;
+    }
+    .mychat>span.b{
+        background: yellowgreen;
+    }
     </style>
     <script src="js/socket.io.dev.js"></script>
 </head>
@@ -40,17 +58,29 @@
     var socket=null
     function a() {
         socket = io()
+        socket.username = document.getElementById('a').value
         socket.on('connect',function () {
             console.log(socket.id);
+            socket.emit('username',document.getElementById('a').value )
         })
         socket.on('msg',function (v) {
+            console.log(v)
+            console.log(socket.id)
+            let newd = document.createElement('div')
+            v.socketid === socket.id?newd.className = 'mychat':newd.className = 'chat'
+            
+            let newp0 = document.createElement('span')
+            newp0.innerText = v.username+" : "
+            newp0.className = 'bb'
             let newp = document.createElement('span')
-            newp.innerText = v
+            newp.innerText = v.data
             newp.className = 'b'
-            document.getElementById('main').appendChild(newp)
 
-            let newb = document.createElement('br')
-            document.getElementById('main').appendChild(newb)
+            newd.appendChild(newp0)
+            newd.appendChild(newp)
+            
+            document.getElementById('main').appendChild(newd)
+
         })
         socket.on('welcome',function (v) {
             console.log(v)
@@ -61,13 +91,12 @@
         })
         socket.on('hello',function (v) {
             console.log(v)
-            let newp = document.createElement('span')
-            newp.innerText = v
-            newp.className = 'b'
-            document.getElementById('main').appendChild(newp)
-
-            let newb = document.createElement('br')
-            document.getElementById('main').appendChild(newb)
+            let newd = document.createElement('div')
+            newd.style.textAlign = 'center'
+            newd.style.color = '#888'
+            newd.style.fontSize = "12px";
+            newd.innerText = v
+            document.getElementById('main').appendChild(newd)
         })
 
     }
@@ -75,37 +104,12 @@
         console.log('sub',document.getElementById('c').value)
         socket.emit('sendmsg',document.getElementById('c').value )
     }
-
-
-
-
-
-
-//    if (window.WebSocket) {
-//        let ws = new WebSocket('ws://192.168.0.69:3000/wsaddr')
-//
-//        // onopen
-//        ws.onopen = function () {
-//            // Web Socket 已连接上，使用 send() 方法发送数据
-//            ws.send("一些数据");
-//            alert("数据发送中...");
-//        };
-//
-//        // onmessage
-//        ws.onmessage = function (evt) {
-//            let received_msg = evt.data;
-//            console.log(received_msg)
-//            alert("数据已接收...");
-//        };
-//
-//        // onclose
-//        ws.onclose = function () {
-//            // 关闭 websocket
-//            alert("连接已关闭...");
-//        };
-//    } else {
-//        alert("不支持ws")
-//    }
+    document.addEventListener('keydown',function(e){
+        console.log()
+        if(e.keyCode == 13){
+            sub()
+        }
+    })
 </script>
 
 </html>

@@ -22,24 +22,27 @@ app.get('/',(req, res) =>{
 //    socket.emit(‘String’, data);//给该socket的客户端发送消息
 
 io.on('connection',(socket)=>{
+    let userlist = {}
     console.log('connection')
-    // console.log(socket)
+    console.log(socket.id)
+    
+    socket.on('username',(data)=>{
+        userlist[socket.id] = data
+        console.log(userlist)
+        io.emit('hello',`系统：欢迎${data}加入~`);//向所有用户发消息
+    })
+
     //socket.emit('hello','系统：欢迎新用户加入'); //向单一用户发消息
-    io.emit('hello','系统：欢迎新用户加入');//向所有用户发消息
+    
     socket.on('sendmsg',(data)=>{
         console.log('sendmsg')
     // console.log(socket)
     //socket.emit('hello','系统：欢迎新用户加入'); //向单一用户发消息
-     io.emit('msg',data);//向所有用户发消息
+        io.emit('msg',{username:userlist[socket.id],data,socketid:socket.id});//向所有用户发消息
     })
 
 })
 
-app.get('/wsaddr',(req, res) =>{
-
-    res.send('root')
-
-})
 
 
 const server = http.listen('3000',()=>{
