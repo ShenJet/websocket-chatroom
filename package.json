@@ -4,13 +4,14 @@
   "description": "websocket chatroom",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel js_es6 -d js_es5"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gangbade/websocket-chatroom.git"
   },
-  "author": "",
+  "author": "shenjie",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/gangbade/websocket-chatroom/issues"
@@ -20,5 +21,15 @@
     "express": "^4.16.3",
     "http": "0.0.0",
     "socket.io": "^2.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0"
   }
 }
